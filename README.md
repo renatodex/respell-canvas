@@ -114,6 +114,46 @@ With this construction, you are redirecting your create action to the after_save
 In addition, the after_save page set a my_id variable to the RenderingView, containing the newly saved id.
 At first look, it seems to be overlayered, but having a controller will help you to separate in a very smart way what is logic and what is output data.
 
+Rendering Views
+-------------------------
+
+Following the MVC specification, Controllers must serve as bridges to deliver data to "Views". The end user operating the application will only see the View, thats where all magic happens. This include Text Rendering, Shape Rendering, Animations, Events, and all.
+
+As Canvas Rendering is a bit difficult than normal DOM Rendering, respell provides an architecture to break all isolated View shape rendering into separate files. They are called Rendering Parts
+
+Model -> Controller -> Rendering View -> Rendering Parts
+
+```
+\app
+	\controllers
+		- task_controller.js
+	\views
+		\task
+			\index
+				_header.js
+				_text_on_top.js
+				_main_div.js
+				_buttons.js
+				_footer.js 
+			\create
+			\delete
+```
+		
+An exemplo of a single rendering part would be as follow:
+
+```
+file: /app/views/task/_header.js
+
+define(function() {
+	var Header = function() {
+		//= code to render the header
+	}
+	
+	return Header;
+})
+```
+
+
 Features Backlog
 -------------------------
 
