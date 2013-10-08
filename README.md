@@ -44,8 +44,8 @@ A Rendering Action resets the actual canvas and clear the stage preparing the re
 ```
 define(['route', 'controller'], function(App, Controller) {
 	App.routes({
-		'index' : Controller.dispatch('tasks', 'create'),
-		'tasks/delete/:task_id' : Controller.dispatch('tasks', 'delete')
+		'index' : ['tasks', 'create'],
+		'tasks/delete/:task_id' : ['tasks', 'delete']
 	})
 	
 	App.start('tasks', 'index');
@@ -130,6 +130,7 @@ Model -> Controller -> Rendering View -> Rendering Parts
 	\views
 		\task
 			\index
+				index.js
 				_header.js
 				_text_on_top.js
 				_main_div.js
@@ -139,10 +140,10 @@ Model -> Controller -> Rendering View -> Rendering Parts
 			\delete
 ```
 		
-An exemplo of a single rendering part would be as follow:
+An exemple of a single rendering part would be as follow:
 
 ```
-file: /app/views/task/_header.js
+file: /app/views/task/index/_header.js
 
 define(function() {
 	var Header = function() {
@@ -152,6 +153,55 @@ define(function() {
 	return Header;
 })
 ```
+
+Every action folder will have a lot of view "Rendering Parts" (header, main, buttons, footer, etc), and the "Rendering View" file (index.js)
+This file is responsible for load all the "Rendering Parts", and initialize the Canvas rendering.
+See:
+
+```
+file: /app/views/task/index/index.js
+
+define(function() {
+	return ['header','text_on_top','main_div','buttons','footer']
+})
+```
+
+Drawing objects
+-------------------------
+
+For all the Canvas drawing subjects, we wrapped CreateJS to provide all the already existent API for Object Drawing and Stage manipulation.
+In order to load an image, firstly you must define this image at our manifest file, which is a Javascript Class containing a list of everything thats gonna be loaded on your application.
+
+
+The manifest.js file is on the root of your application folder, and it contains the following structure:
+
+
+```
+file: /app/manifest.js
+
+define(function() {
+	return {
+		'images' => [
+			{ id: 'tasks_add_icon', src: 'assets/images/tasks/add_icon.jpg' },
+			{ id: 'tasks_remove_icon', src: 'assets/images/tasks/remove_icon.jpg' },		
+			{ id: 'tasks_reload_icon', src: 'assets/images/tasks/reload_icon.jpg' }						
+		],
+		
+		'sounds' => [
+			{ id: 'tasks_refresh', src: 'assets/images/tasks/refresh_pop.mp3' }		
+		],
+		
+		'movies' => [
+		],
+		
+		'my-custom-image-bundle' => [
+		]
+	}
+})
+``` 
+
+Here you can load any assets that your application should init.
+The application will start loading 'images', 'sounds' and 'movies', but if you prefer to gradually load bundles of assets as the events happens on your app, you can define custom entries on this same manifest, as you can see in the snippet above.
 
 
 Features Backlog
