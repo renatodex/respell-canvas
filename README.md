@@ -203,6 +203,29 @@ define(function() {
 Here you can load any assets that your application should init.
 The application will start loading 'images', 'sounds' and 'movies', but if you prefer to gradually load bundles of assets as the events happens on your app, you can define custom entries on this same manifest, as you can see in the snippet above.
 
+Drawing objects - Bitmap Images 
+-------------------------
+
+After you define every image id in your manifest file, you can easily load them into your canvas scene.
+Heres an example:
+
+```
+file: /app/views/task/index/_buttons.js
+
+define(['draw'], function(Draw) {
+	var Buttons = function() {
+		var add_icon = new Draw.image();
+		add_icon.x = 10;
+		add_icon.y = 20;
+		add_icon.draw();
+	}
+	
+	return Buttons;
+})
+```
+
+
+
 
 Features Backlog
 -------------------------
